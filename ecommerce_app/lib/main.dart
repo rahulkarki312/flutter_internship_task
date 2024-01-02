@@ -1,7 +1,14 @@
+import 'package:ecommerce_app/providers/orders.dart';
+import 'package:ecommerce_app/providers/products.dart';
+import 'package:ecommerce_app/screens/cart_screen.dart';
+import 'package:ecommerce_app/screens/orders_screen.dart';
+import 'package:ecommerce_app/screens/product_detail_screen.dart';
 import 'package:ecommerce_app/screens/products_overview_page.dart';
+import 'package:ecommerce_app/screens/user_products_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/cart.dart';
 import 'screens/auth_screen.dart';
 import 'providers/auth.dart';
 import './screens/loading_screen.dart';
@@ -17,6 +24,20 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => Auth()),
+          ChangeNotifierProxyProvider<Auth, Products>(
+              create: (_) => Products("", "", []),
+              update: (ctx, auth, previousProducts) => Products(
+                  auth.token.toString(),
+                  auth.userId.toString(),
+                  previousProducts == null ? [] : previousProducts.items)),
+          ChangeNotifierProvider(create: (_) => Cart()),
+          ChangeNotifierProxyProvider<Auth, Orders>(
+            create: (_) => Orders("", "", []),
+            update: (ctx, auth, previousOrders) => Orders(
+                auth.token.toString(),
+                auth.userId.toString(),
+                previousOrders == null ? [] : previousOrders.orders),
+          )
         ],
         child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
@@ -38,7 +59,12 @@ class MyApp extends StatelessWidget {
                             : const AuthScreen(),
                   ),
             routes: {
-              //  mention routes here
+              ProductDetailScreen.routeName: (context) =>
+                  const ProductDetailScreen(),
+              CartScreen.routeName: (context) => const CartScreen(),
+              OrdersScreen.routeName: (context) => const OrdersScreen(),
+              UserProductsScreen.routeName: (context) =>
+                  const UserProductsScreen(),
             },
           ),
         ));
