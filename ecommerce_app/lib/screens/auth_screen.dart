@@ -57,7 +57,7 @@ class AuthScreen extends StatelessWidget {
                       ),
                       child: const Center(
                         child: Text(
-                          'Hamro Shop',
+                          'E-Shop',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,

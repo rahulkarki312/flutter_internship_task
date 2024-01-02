@@ -147,4 +147,8 @@ class Products with ChangeNotifier {
       throw HttpException("Could not delete product");
     }
   }
+
+  Future<List<Product>> getProductsFuture() async {
+    return _items;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/delegates/search_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,10 +59,16 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             IconThemeData(color: Theme.of(context).colorScheme.secondary),
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          'Hamro Shop',
+          'E-Shop',
           style: TextStyle(color: Theme.of(context).colorScheme.secondary),
         ),
         actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                showSearch(
+                    context: context, delegate: searchProductsDelegate());
+              },
+              icon: const Icon(Icons.search)),
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
